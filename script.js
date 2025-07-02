@@ -31,16 +31,37 @@ let wrapMode = false;
 let currentCanvasSize = 500;
 let enablePowers = true;
 
+let globalPower = null;
+let globalPowerTimeout = null;
+
 // --- Initialisation ---
 function resetGame() {
-  players = [
-    { x: 0.2 * currentCanvasSize, y: 0.5 * currentCanvasSize, dir: 0, color: '#ff512f', keys: controls.p1 },
-    { x: 0.8 * currentCanvasSize, y: 0.5 * currentCanvasSize, dir: Math.PI, color: '#36d1c4', keys: controls.p2 }
-  ];
+  // Spawn aléatoire pour chaque joueur, pas trop près des bords
+  const margin = 40;
+  let p1, p2;
+  do {
+    p1 = {
+      x: margin + Math.random() * (currentCanvasSize - 2 * margin),
+      y: margin + Math.random() * (currentCanvasSize - 2 * margin),
+      dir: Math.random() * 2 * Math.PI,
+      color: '#ff512f',
+      keys: controls.p1
+    };
+    p2 = {
+      x: margin + Math.random() * (currentCanvasSize - 2 * margin),
+      y: margin + Math.random() * (currentCanvasSize - 2 * margin),
+      dir: Math.random() * 2 * Math.PI,
+      color: '#36d1c4',
+      keys: controls.p2
+    };
+    // On évite qu'ils spawnent trop proches
+  } while (distance(p1.x, p1.y, p2.x, p2.y) < 80);
+  players = [p1, p2];
   trails = [[], []];
   clearPowers();
   powerEffects = [null, null];
   sameColorActive = false;
+  globalPower = null;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
@@ -264,6 +285,7 @@ function endRound(loserIdx) {
   if (loserIdx === 0) score.p2++;
   else score.p1++;
   updateScore();
+  clearGlobalPowerEffects();
   setTimeout(() => startCountdownAndGame(), 1200);
 }
 
@@ -348,25 +370,6 @@ function drawScene() {
       ctx.fill();
     }
   }
-  // Superpouvoirs
-  if (enablePowers && countdown === 0) {
-    for (const pow of powers) {
-      ctx.save();
-      ctx.beginPath();
-      ctx.arc(pow.x, pow.y, 13, 0, 2 * Math.PI);
-      ctx.fillStyle = POWER_COLORS[pow.type];
-      ctx.shadowColor = POWER_COLORS[pow.type];
-      ctx.shadowBlur = 12;
-      ctx.fill();
-      ctx.shadowBlur = 0;
-      ctx.font = '20px Segoe UI, Arial';
-      ctx.fillStyle = '#222';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(POWER_ICONS[pow.type], pow.x, pow.y);
-      ctx.restore();
-    }
-  }
   // Affichage du compte à rebours
   if (countdown > 0) {
     ctx.save();
@@ -401,12 +404,44 @@ function startCountdownAndGame() {
 
 function giveInitialPowers() {
   if (!enablePowers) return;
-  for (let i = 0; i < 2; i++) {
-    // On ne donne pas 'random' directement
-    const possible = POWER_TYPES.filter(t => t !== 'random');
-    const type = possible[Math.floor(Math.random() * possible.length)];
-    activatePower(i, type);
+  // On peut tomber sur 'samecolor' (global), sinon chacun un pouvoir individuel différent
+  const possible = POWER_TYPES.filter(t => t !== 'random');
+  const type = possible[Math.floor(Math.random() * possible.length)];
+  if (type === 'samecolor') {
+    sameColorActive = true;
+    powerEffects = [null, null];
+    globalPower = 'samecolor';
+  } else {
+    // Effets individuels différents
+    const other = possible.filter(t => t !== 'samecolor' && t !== type);
+    powerEffects[0] = { type, timeout: null };
+    powerEffects[1] = { type: other[Math.floor(Math.random() * other.length)], timeout: null };
+    sameColorActive = false;
+    globalPower = null;
   }
+}
+
+function applyGlobalPower(type) {
+  // Reset tous les effets
+  powerEffects = [null, null];
+  sameColorActive = false;
+  if (type === 'speed') {
+    for (let i = 0; i < 2; i++) {
+      powerEffects[i] = { type: 'speed', timeout: null };
+    }
+  } else if (type === 'slow') {
+    for (let i = 0; i < 2; i++) {
+      powerEffects[i] = { type: 'slow', timeout: null };
+    }
+  } else if (type === 'samecolor') {
+    sameColorActive = true;
+  }
+}
+
+function clearGlobalPowerEffects() {
+  powerEffects = [null, null];
+  sameColorActive = false;
+  globalPower = null;
 }
 
 showHeadCheckbox.addEventListener('change', () => {
