@@ -25,11 +25,19 @@
           <label>Touche Droite : <input type="text" maxlength="1" id="p2right" required></label>
         </div>
         <button type="submit" id="startBtn">Lancer</button>
+        <button type="button" id="pauseBtn">Pause</button>
       </form>
       <div id="scoreBoard">
         <h3>Score</h3>
         <p>Joueur 1 : <span id="score1">0</span></p>
         <p>Joueur 2 : <span id="score2">0</span></p>
+      </div>
+      <div id="proSettings" class="pro-settings">
+        <h3>Réglage Pro</h3>
+        <label><input type="checkbox" id="enablePowers" checked> Activer les superpouvoirs</label>
+        <label><input type="checkbox" id="showHead" checked> Afficher la tête du serpent</label>
+        <label>Taille du carré de jeu : <input type="range" id="canvasSize" min="300" max="700" value="500"> <span id="canvasSizeValue">500</span> px</label>
+        <label><input type="checkbox" id="wrapMode"> Activer la traversée des murs</label>
       </div>
     </div>
   </div>

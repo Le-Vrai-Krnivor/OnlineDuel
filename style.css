@@ -57,7 +57,7 @@ input[type="text"] {
   font-size: 1.1rem;
   text-align: center;
 }
-#startBtn {
+#startBtn, #pauseBtn {
   background: linear-gradient(90deg, #ff512f, #dd2476);
   color: #fff;
   border: none;
@@ -93,4 +93,29 @@ input[type="text"] {
     width: 90vw;
     max-width: 500px;
   }
+}
+.pro-settings {
+  margin-top: 32px;
+  background: #23272f;
+  border-radius: 10px;
+  padding: 16px 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+}
+.pro-settings label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+.pro-settings h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+#canvasSize {
+  vertical-align: middle;
+}
+#canvasSizeValue {
+  font-weight: bold;
+  margin-left: 4px;
 } 
