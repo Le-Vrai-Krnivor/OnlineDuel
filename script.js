@@ -484,3 +484,28 @@ getRedirectResult(auth)
     const credential = GoogleAuthProvider.credentialFromError(error);
     // ..
   });
+
+window.handleCredentialResponse = function(response) {
+  // Décoder le JWT Google
+  const data = parseJwt(response.credential);
+  user = data;
+  document.getElementById('accountBox').innerHTML = `
+    <img src="${data.picture}" alt="avatar">
+    <span>${data.given_name} ${data.family_name}</span>
+    <button id='logoutBtn'>Déconnexion</button>
+  `;
+  document.getElementById('controlsForm').style.display = '';
+  document.getElementById('proSettings').style.display = '';
+  document.getElementById('scoreBoard').style.display = '';
+  document.querySelector('.g_id_signin').style.display = 'none';
+  document.getElementById('g_id_onload').style.display = 'none';
+  document.getElementById('logoutBtn').onclick = function() {
+    user = null;
+    document.getElementById('accountBox').innerHTML = '';
+    document.getElementById('controlsForm').style.display = 'none';
+    document.getElementById('proSettings').style.display = 'none';
+    document.getElementById('scoreBoard').style.display = 'none';
+    document.querySelector('.g_id_signin').style.display = '';
+    document.getElementById('g_id_onload').style.display = '';
+  };
+}
