@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Jeu Addictif - Duel de Traces</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
   <div class="container">
@@ -12,6 +13,13 @@
       <canvas id="gameCanvas" width="500" height="500"></canvas>
     </div>
     <div class="config-area">
+      <div id="g_id_onload"
+           data-client_id="782005730009-ab06v3of0rpdf9ln7rdhg9gmjbhsm6dh.apps.googleusercontent.com"
+           data-callback="handleCredentialResponse"
+           data-auto_prompt="false">
+      </div>
+      <div class="g_id_signin" data-type="standard" data-size="large"></div>
+      <div id="userInfo"></div>
       <h2>Configuration</h2>
       <form id="controlsForm">
         <div class="player-config">
