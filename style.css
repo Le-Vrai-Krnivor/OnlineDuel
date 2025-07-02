@@ -1,0 +1,96 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(120deg, #232526, #414345);
+  color: #fff;
+  min-height: 100vh;
+}
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh;
+  gap: 40px;
+  padding: 40px 0;
+}
+.game-area {
+  background: #18191a;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#gameCanvas {
+  background: #222;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  display: block;
+}
+.config-area {
+  background: #20232a;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  padding: 32px 24px;
+  min-width: 280px;
+  max-width: 320px;
+}
+.config-area h2, .config-area h3 {
+  margin-top: 0;
+  font-weight: 600;
+}
+.player-config {
+  margin-bottom: 18px;
+}
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+input[type="text"] {
+  width: 40px;
+  padding: 6px;
+  border-radius: 6px;
+  border: none;
+  margin-left: 8px;
+  font-size: 1.1rem;
+  text-align: center;
+}
+#startBtn {
+  background: linear-gradient(90deg, #ff512f, #dd2476);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 28px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 12px;
+  transition: background 0.2s;
+}
+#startBtn:hover {
+  background: linear-gradient(90deg, #dd2476, #ff512f);
+}
+#scoreBoard {
+  margin-top: 32px;
+  background: #18191a;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+#scoreBoard p {
+  margin: 8px 0;
+  font-size: 1.1rem;
+}
+@media (max-width: 900px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+  .game-area, .config-area {
+    width: 90vw;
+    max-width: 500px;
+  }
+} 

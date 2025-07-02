@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jeu Addictif - Duel de Traces</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="game-area">
+      <canvas id="gameCanvas" width="500" height="500"></canvas>
+    </div>
+    <div class="config-area">
+      <h2>Configuration</h2>
+      <form id="controlsForm">
+        <div class="player-config">
+          <h3>Joueur 1</h3>
+          <label>Touche Gauche : <input type="text" maxlength="1" id="p1left" required></label>
+          <label>Touche Droite : <input type="text" maxlength="1" id="p1right" required></label>
+        </div>
+        <div class="player-config">
+          <h3>Joueur 2</h3>
+          <label>Touche Gauche : <input type="text" maxlength="1" id="p2left" required></label>
+          <label>Touche Droite : <input type="text" maxlength="1" id="p2right" required></label>
+        </div>
+        <button type="submit" id="startBtn">Lancer</button>
+      </form>
+      <div id="scoreBoard">
+        <h3>Score</h3>
+        <p>Joueur 1 : <span id="score1">0</span></p>
+        <p>Joueur 2 : <span id="score2">0</span></p>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html> 
