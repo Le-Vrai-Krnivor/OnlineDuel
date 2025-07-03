@@ -461,41 +461,6 @@ showHead = showHeadCheckbox.checked;
 wrapMode = wrapModeCheckbox.checked;
 enablePowers = enablePowersCheckbox.checked; 
 
-window.handleCredentialResponse = function(response) {
-  // Décoder le JWT Google
-  const data = parseJwt(response.credential);
-  user = data;
-  document.getElementById('accountBox').innerHTML = `
-    <img src="${data.picture}" alt="avatar">
-    <span>${data.given_name} ${data.family_name}</span>
-    <button id='logoutBtn'>Déconnexion</button>
-  `;
-  document.getElementById('controlsForm').style.display = '';
-  document.getElementById('proSettings').style.display = '';
-  document.getElementById('scoreBoard').style.display = '';
-  document.querySelector('.g_id_signin').style.display = 'none';
-  document.getElementById('g_id_onload').style.display = 'none';
-  document.getElementById('logoutBtn').onclick = function() {
-    user = null;
-    document.getElementById('accountBox').innerHTML = '';
-    document.getElementById('controlsForm').style.display = 'none';
-    document.getElementById('proSettings').style.display = 'none';
-    document.getElementById('scoreBoard').style.display = 'none';
-    document.querySelector('.g_id_signin').style.display = '';
-    document.getElementById('g_id_onload').style.display = '';
-  };
-}
-// Décoder le JWT Google
-function parseJwt(token) {
-  const base64Url = token.split('.')[1];
-  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-  }).join(''));
-  return JSON.parse(jsonPayload);
-}
-
-// Fonction appelée par Google après connexion
 function handleCredentialResponse(response) {
   const data = parseJwt(response.credential);
   // Cacher le bouton Google
@@ -518,3 +483,35 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 });
+
+// Délégation d'événement pour le bouton Déconnexion
+// Fonctionne même si le bouton est ajouté dynamiquement
+
+document.addEventListener('click', function(e) {
+  if (e.target && e.target.id === 'logoutBtn') {
+    // Désactive l'auto-sélection Google (déconnexion réelle)
+    if (window.google && google.accounts && google.accounts.id) {
+      google.accounts.id.disableAutoSelect();
+    }
+    // Masquer le menu utilisateur
+    document.getElementById('userMenu').classList.add('hidden');
+    // Réafficher le bouton Google
+    document.getElementById('googleSignIn').style.display = '';
+    // Réinitialiser les infos utilisateur
+    document.getElementById('userPic').src = '';
+    document.getElementById('userName').textContent = '';
+    document.getElementById('userEmail').textContent = '';
+    // Fermer le dropdown
+    document.getElementById('userDropdown').classList.add('hidden');
+  }
+});
+
+// Décoder le JWT Google
+function parseJwt(token) {
+  const base64Url = token.split('.')[1];
+  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(''));
+  return JSON.parse(jsonPayload);
+}
