@@ -8,18 +8,29 @@
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
-  <div id="accountBox"></div>
+  <div id="accountBox">
+    <div id="googleSignIn">
+      <div id="g_id_onload"
+           data-client_id="782005730009-08br17paeet0si65g7cku14le75kcm21.apps.googleusercontent.com"
+           data-callback="handleCredentialResponse"
+           data-auto_prompt="false">
+      </div>
+      <div class="g_id_signin" data-type="standard" data-size="large"></div>
+    </div>
+    <div id="userMenu" class="hidden">
+      <button id="hamburgerBtn">☰</button>
+      <div id="userDropdown" class="dropdown-content hidden">
+        <img id="userPic" src="" alt="Photo de profil" />
+        <p id="userName"></p>
+        <p id="userEmail"></p>
+      </div>
+    </div>
+  </div>
   <div class="container">
     <div class="game-area">
       <canvas id="gameCanvas" width="500" height="500"></canvas>
     </div>
     <div class="config-area">
-      <div id="g_id_onload"
-           data-client_id="T782005730009-ab06v3of0rpdf9ln7rdhg9gmjbhsm6dh.apps.googleusercontent.com"
-           data-callback="handleCredentialResponse"
-           data-auto_prompt="false">
-      </div>
-      <div class="g_id_signin" data-type="standard" data-size="large"></div>
       <h2>Configuration</h2>
       <form id="controlsForm">
         <div class="player-config">

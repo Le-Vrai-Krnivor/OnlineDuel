@@ -485,3 +485,36 @@ window.handleCredentialResponse = function(response) {
     document.getElementById('g_id_onload').style.display = '';
   };
 }
+// Décoder le JWT Google
+function parseJwt(token) {
+  const base64Url = token.split('.')[1];
+  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(''));
+  return JSON.parse(jsonPayload);
+}
+
+// Fonction appelée par Google après connexion
+function handleCredentialResponse(response) {
+  const data = parseJwt(response.credential);
+  // Cacher le bouton Google
+  document.getElementById('googleSignIn').style.display = 'none';
+  // Afficher le menu hamburger
+  document.getElementById('userMenu').classList.remove('hidden');
+  // Remplir les infos
+  document.getElementById('userPic').src = data.picture;
+  document.getElementById('userName').textContent = data.name;
+  document.getElementById('userEmail').textContent = data.email;
+}
+
+// Gérer l'ouverture/fermeture du menu hamburger
+document.addEventListener('DOMContentLoaded', function() {
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const userDropdown = document.getElementById('userDropdown');
+  if (hamburgerBtn && userDropdown) {
+    hamburgerBtn.addEventListener('click', function() {
+      userDropdown.classList.toggle('hidden');
+    });
+  }
+});
