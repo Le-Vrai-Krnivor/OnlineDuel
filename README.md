@@ -1,2 +1,2 @@
-# SerpentSim v1
+# OnlineDuel
 
